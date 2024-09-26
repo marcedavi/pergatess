@@ -80,7 +80,6 @@ build/*
 __pycache__
 
 # tessdata
-*.traineddata
 tessdata_*
 
 # OpenCL
