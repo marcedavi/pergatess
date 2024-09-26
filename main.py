@@ -4,6 +4,8 @@ import eval
 import os
 from pathlib import Path
 
+os.environ['PATH'] += os.pathsep + os.path.join(Path(__file__).parent.resolve(), 'dependencies', 'poppler', 'Library', 'bin')
+
 def choose_folder(entry):
     folder_path = filedialog.askdirectory(initialdir=Path.home())
     folder_path = os.path.normpath(folder_path)
