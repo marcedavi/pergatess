@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 os.environ['PATH'] += os.pathsep + os.path.join(Path(__file__).parent.resolve(), 'dependencies', 'poppler', 'Library', 'bin')
+os.environ['TESSDATA_PREFIX'] += os.pathsep + os.path.join(Path(__file__).parent.resolve(), 'tesseract-5.3.4', 'tessdata')
 
 def choose_folder(entry):
     folder_path = filedialog.askdirectory(initialdir=Path.home())
