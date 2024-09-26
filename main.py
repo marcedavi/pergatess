@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import filedialog, Text, messagebox, ttk
 import eval
+import os
+from pathlib import Path
 
 def choose_folder(entry):
-    folder_path = filedialog.askdirectory(initialdir='./')
+    folder_path = filedialog.askdirectory(initialdir=Path.home())
+    folder_path = os.path.normpath(folder_path)
     if folder_path:
         entry.delete(0, tk.END)
         entry.insert(0, folder_path)

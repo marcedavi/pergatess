@@ -7,6 +7,8 @@ import common
 import tempfile
 import glob
 import re
+import multiprocessing
+import shutil
 from pdf2image import convert_from_path
 
 
@@ -85,26 +87,26 @@ def eval(excel_folder, pdf_folder):
 
     # Split PDFs
     temp_dir = tempfile.gettempdir()
-    temp_images_dir = f"{temp_dir}/PergaTess/images"
+    temp_images_dir = os.path.join(temp_dir, "PergaTess", "images")
 
     if not os.path.exists(temp_images_dir):
         os.makedirs(temp_images_dir)
 
-    pdf_files = glob.glob(f'{pdf_folder}/*.pdf')
+    pdf_files = glob.glob(os.path.join(pdf_folder, '*.pdf'))
     for f in pdf_files:
         filename = os.path.splitext(os.path.basename(f))[0]
 
-        # pages = convert_from_path(f, thread_count=multiprocessing.cpu_count())
-        # for j, page in enumerate(pages):
-        #     page.save(f'{temp_images_dir}/{filename}_{j}.png', 'PNG')
+        pages = convert_from_path(f, thread_count=multiprocessing.cpu_count())
+        for j, page in enumerate(pages):
+            page.save(os.path.join(temp_images_dir, f'{filename}_{j}.png'), 'PNG')
             
-        #     yield progress + j * (25 / len(pdf_files)) / len(pages), ""
+            yield progress + j * (25 / len(pdf_files)) / len(pages), ""
 
         progress += 25 / len(pdf_files)
 
     # Load Excel data
     excel_data = {}
-    excel_files = glob.glob(f"{excel_folder}/*.xls*")
+    excel_files = glob.glob(os.path.join(excel_folder, "*.xls*"))
     for i, f in enumerate(excel_files):
         filename = os.path.splitext(os.path.basename(f))[0]
         excel_data[filename] = pandas.read_excel(f)
@@ -202,6 +204,6 @@ def eval(excel_folder, pdf_folder):
 
     progress += 70
 
-    # shutil.rmtree(temp_images_dir)
+    shutil.rmtree(temp_images_dir)
 
     yield progress, f"Trovate {error_count} pergamene sbagliate su {total}!\n\n"
