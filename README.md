@@ -7,7 +7,8 @@ Splitting a PDF into images seems to be awfully slow using the most popular libr
 On Windows the UI dimensions are a bit off (some elements are shorter than they should be/they are on Linux).
 
 ## Preparation
-You should have a folder that contains only the Excel files and another folder that contains only the PDF files.
+The Excel and PDF files can be either in a single folder or in two separate folders.
+What's important is that in such folder(s) there aren't any unnecessary PDF or Excel files because the software looks for any file with ".pdf" or ".xls*" extension so it will pick up the wrong files as well.
 Each Excel file name should be the same as the corresponding PDF file name.
 The Excel extension can be xlsx, xls, xlsm and a few more, the software should work fine regardless.
 
@@ -22,10 +23,20 @@ For example:
 |___ 2.pdf
 |___ 3.pdf
 
+## Compilation
+If you need to produce a standalone executable for Windows follow this steps:
+
+- git clone https://github.com/marcedavi/pergatess
+- cd pergatess
+- python -m pip install -r requirements.txt
+- python -m PyInstaller --onefile --windowed --add-data "dependencies;dependencies" .\main.py
+
+You will find the executable under the "dist" directory.
+
 ## Setup
 The software works on both linux and windows.
 
-You need to install Tesseract 5 binaries for your OS and it to the system PATH.
+You need to install Tesseract 5 binaries for your OS and add it to the system PATH.
 On Windows i recommend the unofficial installers from UB Mannheim.
 You can find everything here:
 https://tesseract-ocr.github.io/tessdoc/Downloads.html

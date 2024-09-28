@@ -2,10 +2,11 @@ import tkinter as tk
 from tkinter import filedialog, Text, messagebox, ttk
 import eval
 import os
+import common
 from pathlib import Path
 
-os.environ['PATH'] += os.pathsep + os.path.join(Path(__file__).parent.resolve(), 'dependencies', 'poppler', 'Library', 'bin')
-os.environ['TESSDATA_PREFIX'] = os.path.join(Path(__file__).parent.resolve(), 'tesseract-5.3.4', 'tessdata').replace("\\", "/")
+# os.environ['PATH'] += os.pathsep + os.path.join(common.get_dependencies_path(), 'poppler', 'Library', 'bin').replace("\\", "/")
+os.environ['TESSDATA_PREFIX'] = os.path.join(common.get_dependencies_path(), 'tesseract', 'tessdata').replace("\\", "/")
 
 def choose_folder(entry):
     folder_path = filedialog.askdirectory(initialdir=Path.home())
@@ -48,7 +49,7 @@ excel_folder_frame.grid(row=0, column=0, padx=5, pady=5)
 excel_folder_label = tk.Label(excel_folder_frame, text="Seleziona cartella contenente i file Excel:")
 excel_folder_label.grid(row=0, column=0, sticky="w")
 
-excel_folder_entry = tk.Entry(excel_folder_frame, width=50)
+excel_folder_entry = tk.Entry(excel_folder_frame, width=80)
 excel_folder_entry.grid(row=1, column=0, padx=5, pady=5)
 
 choose_excel_folder_btn = tk.Button(excel_folder_frame, text="Seleziona...", command=lambda: choose_folder(excel_folder_entry))
@@ -61,7 +62,7 @@ pdf_folder_frame.grid(row=1, column=0, padx=5, pady=5)
 pdf_folder_label = tk.Label(pdf_folder_frame, text="Seleziona cartella contenente i file PDF:")
 pdf_folder_label.grid(row=0, column=0, sticky="w")
 
-pdf_folder_entry = tk.Entry(pdf_folder_frame, width=50)
+pdf_folder_entry = tk.Entry(pdf_folder_frame, width=80)
 pdf_folder_entry.grid(row=1, column=0, padx=5, pady=5)
 
 choose_pdf_folder_btn = tk.Button(pdf_folder_frame, text="Seleziona...", command=lambda: choose_folder(pdf_folder_entry))
@@ -75,7 +76,7 @@ output_text = Text(root, height=20, width=70)
 output_text.grid(row=3, column=0, padx=5, pady=5)
 
 # Progress bar
-progress_bar = ttk.Progressbar(root, orient="horizontal", length=420, mode="determinate")
+progress_bar = ttk.Progressbar(root, orient="horizontal", length=565, mode="determinate")
 progress_bar.grid(row=4, column=0, padx=5, pady=5)
 
 # Process button

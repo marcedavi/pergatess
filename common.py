@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
-
+import sys
+import os
 
 def process(image, padding = 0, perspective = 0, threshold = 0):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -35,3 +36,12 @@ def process(image, padding = 0, perspective = 0, threshold = 0):
     image = thresh[top : bottom, left : right]
 
     return image
+
+
+def get_dependencies_path():
+    if hasattr(sys, '_MEIPASS'):
+        base_path = os.path.join(sys._MEIPASS, 'dependencies')
+    else:
+        base_path = os.path.join(os.path.dirname(__file__), 'dependencies')
+    
+    return base_path

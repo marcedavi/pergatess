@@ -10,7 +10,9 @@ import re
 import multiprocessing
 import shutil
 from pdf2image import convert_from_path
+from pathlib import Path
 
+pytesseract.pytesseract.tesseract_cmd = os.path.join(common.get_dependencies_path(), 'tesseract', 'tesseract.exe').replace("\\", "/")
 
 def full_name(excel_data, excel_filename, index):
     first_name = str(excel_data[excel_filename]["NOME"][index]).strip()
@@ -87,16 +89,22 @@ def eval(excel_folder, pdf_folder):
 
     # Split PDFs
     temp_dir = tempfile.gettempdir()
-    temp_images_dir = os.path.join(temp_dir, "PergaTess", "images")
-
-    if not os.path.exists(temp_images_dir):
-        os.makedirs(temp_images_dir)
+    temp_images_dir = os.path.join(temp_dir, "PergaTess")
+   
+    if os.path.exists(temp_images_dir):
+        shutil.rmtree(temp_images_dir)
+    
+    os.makedirs(temp_images_dir)
 
     pdf_files = glob.glob(os.path.join(pdf_folder, '*.pdf'))
     for f in pdf_files:
         filename = os.path.splitext(os.path.basename(f))[0]
 
-        pages = convert_from_path(f, thread_count=multiprocessing.cpu_count())
+        pages = convert_from_path(
+            f,
+            thread_count=multiprocessing.cpu_count(),
+            poppler_path=os.path.join(Path(__file__).parent.resolve(), 'dependencies', 'poppler', 'Library', 'bin').replace("\\", "/")
+        )
         for j, page in enumerate(pages):
             page.save(os.path.join(temp_images_dir, f'{filename}_{j}.png'), 'PNG')
             
