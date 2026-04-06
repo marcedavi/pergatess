@@ -1,10 +1,5 @@
-# pergatess
-Software that uses Tesseract to review some documents for typos.
-
-## Disclaimer
-You can expect ~15 minutes of processing time (pdf2image + inference) for a ~270 pages PDF but it depends on your CPU.
-Splitting a PDF into images seems to be awfully slow using the most popular library pdf2image.
-On Windows the UI dimensions are a bit off (some elements are shorter than they should be/they are on Linux).
+# Pergatess
+University project that involved the fine-tuning of Tesseract to detect typos in degree certificates.
 
 ## Preparation
 The Excel and PDF files can be either in a single folder or in two separate folders.
